@@ -1,0 +1,10 @@
+en: 
+  card-select-title: Select default data
+  card-select-descr: Allows you to perform the bottleneck analysis with a sample data set already available.
+  card-select-button: Use the default data
+  card-simulate-title: Simulate new data
+  card-simulate-descr: Enables the generation of new data by simulating a directed value stream.
+  card-simulate-button: Run a simulation
+  card-upload-title: Simulate new data
+  card-upload-descr: Allows you to upload your own data from your manufacturing system in the form of CSV files.
+  card-upload-button: Run a simulation

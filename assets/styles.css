@@ -1,0 +1,59 @@
+html {
+    padding: 0;
+    margin: 0;
+}
+
+.row {
+    --bs-gutter-x: 0; 
+}
+
+.dropdown {
+    width:100%;
+    text-align: right;
+    margin: 0.25rem;
+}
+
+#app-sidebar-nav-link-select, #app-sidebar-nav-link-detect, #app-sidebar-nav-link-diagnose, #app-sidebar-nav-link-predict {
+    border: 1px;
+    border-color: grey;
+    border-style: solid;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#app-content {
+    display: flex;
+}
+
+#app-header {
+    padding: 0.5rem;
+}
+
+#app-header-content {
+    display: flex;
+    align-items: center;
+}
+
+#app-header-title {
+    margin: 0;
+}
+
+#app-header-menu-col {
+    padding: 0;
+}
+
+#app-sidebar {
+    display: flex;
+    align-items: top;
+    padding: 0.5rem;
+}
+
+#app-body {
+    padding: 0.5rem;
+}
+
+#app-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+}

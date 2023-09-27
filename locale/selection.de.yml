@@ -1,0 +1,10 @@
+de: 
+  card-select-title: Verwende Beispieldaten
+  card-select-descr: Ermöglicht die Durchführung der Engpassanalyse mit einem bereits verfügbaren Beispieldatensatz.
+  card-select-button: Verwende die Beispieldaten
+  card-simulate-title: Nutze eine Simulation
+  card-simulate-descr: Ermöglicht die Erzeugung von neuen Daten durch die Simulation eines gerichteten Wertstroms.
+  card-simulate-button: Neue Daten simulieren 
+  card-upload-title: Verwende eigene Daten
+  card-upload-descr: Ermöglicht Ihnen das Hochladen eigener Daten aus einem Wertstrom in Form von CSV-Dateien.
+  card-upload-button: Eigene Daten hochladen
