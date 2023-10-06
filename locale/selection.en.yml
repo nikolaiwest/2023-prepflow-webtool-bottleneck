@@ -1,10 +1,14 @@
 en: 
-  card-select-title: Select default data
+  card-select-title: Select example data
   card-select-descr: Allows you to perform the bottleneck analysis with a sample data set already available.
   card-select-button: Use the default data
   card-simulate-title: Simulate new data
   card-simulate-descr: Enables the generation of new data by simulating a directed value stream.
   card-simulate-button: Run a simulation
-  card-upload-title: Simulate new data
+  card-upload-title: Use your own data
   card-upload-descr: Allows you to upload your own data from your manufacturing system in the form of CSV files.
-  card-upload-button: Run a simulation
+  card-upload-button: Upload manufacturing data
+  selection-default-title1: 🔽 Data description
+  selection-default-title2: 🔽 Recommendations for usage 
+  selection-default-text1: The exemplary data set was created with the help of a discrete event simulation. It contains data of a production line with 5 stations (S) or 6 buffers (B). In the simulation, the system boundaries were assumed to be infinite, so both the first buffer and the last buffer are omitted from consideration in the bottleneck analysis. With a total of 10 million simulated time steps, the data set is comparatively large.
+  selection-default-text2: The advantage of this example data set is that it can be applied quickly.  Both the simulation and the uploading of custom data involve longer computation times. The duration of these processes depends strongly on the chosen parameters or on the size of the respective data sets. The dataset has already been used in a bottleneck prediction publication that serves as the basis for this tool [West et al. 2023].

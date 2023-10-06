@@ -1,27 +1,89 @@
-from dash import dcc
+from pandas import DataFrame
+from dash.dcc import Store
 
-DEFAULT_CONFIG = {
-    "language": "en",
-    "theme": "light",
-    "navlink": "",
+from .options import Options
+
+
+class ConfigName:
+    # Name for Store id's
+    app = "user-config-app"
+    data = "user-config-data"
+    buffer_level = "data-buffer-level"
+    machine_states = "data-machine-states"
+    active_periods = "data-active-periods"
+    # Name for dict keys (app)
+    theme = "user_theme"
+    navlink = "user_navlink"
+    language = "user_language"
+    # Name for dict keys (data)
+    source = "data-source"
+
+
+# Get dict with default values for app configuration
+CONFIG_APP = {
+    ConfigName.language: "en",
+    ConfigName.theme: "light",
+    ConfigName.navlink: "Initial",
 }
 
-DATA_SOURCE = {
-    "source": "default",
+# Get dict with default values for data configuration
+CONFIG_DATA = {
+    ConfigName.source: Options.selection[0],
+    "sim_process_times": [],
+    "sim_buffer_capacity": [],
+    "path_to_buffer_levles": "",
+    "path_to_machine_states": "",
 }
 
 
-def register_user_config() -> dcc.Store:
-    return dcc.Store(
-        id="user-config",
-        data=DEFAULT_CONFIG,
-        storage_type="memory",
+def register_config_app() -> Store:
+    """Registers a dcc.Store object to save user selections, such as language or theme, during an app session."""
+    # Return store to layout
+    return Store(
+        id=ConfigName.app,
+        data=CONFIG_APP,
+        storage_type="session",
     )
 
 
-def register_data_source() -> dcc.Store:
-    return dcc.Store(
-        id="data-source",
-        data=DATA_SOURCE,
-        storage_type="local",
+def register_config_data() -> Store:
+    """Registers a dcc.Store object to save user selections, such as the data selection, during an app session."""
+    # Return store to layout
+    return Store(
+        id=ConfigName.data,
+        data=CONFIG_DATA,
+        storage_type="session",
+    )
+
+
+def register_data_buffer_level() -> Store:
+    """Registers a dcc.Store object to save buffer level data as a serialized json object."""
+    # Get empty dataframe to initialize
+    df = DataFrame({}).to_json(orient="split")
+    return Store(
+        id=ConfigName.buffer_level,
+        data=df,
+        storage_type="session",
+    )
+
+
+def register_data_machine_states() -> Store:
+    """Registers a dcc.Store object to save machine state data as a serialized json object."""
+    # Get empty dataframe to initialize
+    df = DataFrame({}).to_json(orient="split")
+    return Store(
+        id=ConfigName.machine_states,
+        data=df,
+        storage_type="session",
+    )
+
+
+def register_data_active_periods() -> Store:
+    """Registers a dcc.Store object to save active period data as a serialized json object."""
+    # Get empty dataframe to initialize
+    df = DataFrame({}).to_json(orient="split")
+    return Store(
+        id=ConfigName.active_periods,
+        data=df,
+        storage_type="session",
     )

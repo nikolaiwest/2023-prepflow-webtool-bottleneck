@@ -1,19 +1,42 @@
 import i18n
+
 from dash import Dash, html
 from dash_bootstrap_components import Nav, NavLink
 
+from ..auxiliaries.storage import ConfigName
 
-def render(app: Dash, conf: dict) -> html.Div:
+
+class LinkName:
+    selection = "sidebar-navlink-selection"
+    detection = "sidebar-navlink-detection"
+    diagnosis = "sidebar-navlink-diagnosis"
+    prediction = "sidebar-navlink-prediction"
+
+
+def render(app: Dash, config_app: dict, config_data) -> html.Div:
     return html.Div(
-        id="app-sidebar-content",
+        id="sidebar-content",
         children=[
+            # Put links on dbc.Nav
             Nav(
-                id="app-sidebar-nav",
+                id="sidebar-nav",
                 children=[
-                    render_link(conf, "app-sidebar-nav-link-select"),
-                    render_link(conf, "app-sidebar-nav-link-detect"),
-                    render_link(conf, "app-sidebar-nav-link-diagnose"),
-                    render_link(conf, "app-sidebar-nav-link-predict"),
+                    # Data selection
+                    render_link(config_app, LinkName.selection),
+                    # Bottleneck detection
+                    render_link(config_app, LinkName.detection),
+                    # Bottleneck diagnosis
+                    render_link(config_app, LinkName.diagnosis),
+                    # Bottleneck prediction
+                    render_link(config_app, LinkName.prediction),
+                    # debug
+                    html.Div(
+                        [
+                            html.Div(render_dict(config_app)),
+                            html.Hr(),
+                            html.Div(render_dict(config_data)),
+                        ]
+                    ),
                 ],
                 pills=True,
             ),
@@ -21,10 +44,24 @@ def render(app: Dash, conf: dict) -> html.Div:
     )
 
 
-def render_link(conf: dict, link_id: str) -> NavLink:
+def render_dict(d: dict):
+    r = []
+    for k, v in d.items():
+        r += [html.H5(k), html.H6(v)]
+    return r
+
+
+def render_link(config_app: dict, navlink: str) -> NavLink:
+    # Get dict to display the page names for each navlink
+    page_names = {
+        LinkName.selection: "data-selection",
+        LinkName.detection: "bottleneck-detection",
+        LinkName.diagnosis: "bottleneck-diagnosis",
+        LinkName.prediction: "bottleneck-prediction",
+    }
     return NavLink(
-        id=link_id,
-        children=html.H4(i18n.t(f"sidebar.{link_id}")),
-        href=f"/{link_id}",
-        active=conf["navlink"] == link_id.split("-")[-1],
+        id=navlink,
+        children=[html.H4(i18n.t(f"sidebar.{navlink}"))],
+        href=f"/{page_names[navlink]}",
+        active=config_app[ConfigName.navlink] == navlink.split("-")[-1],
     )

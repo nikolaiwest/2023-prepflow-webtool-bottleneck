@@ -1,5 +1,5 @@
 de:
-  app-sidebar-nav-link-select: Datenauswahl 
-  app-sidebar-nav-link-detect: Engpassdetektion
-  app-sidebar-nav-link-diagnose: Engpassdiagnose 
-  app-sidebar-nav-link-predict: Engpassprognose 
+  sidebar-navlink-selection: Datenauswahl 
+  sidebar-navlink-detection: Engpassdetektion
+  sidebar-navlink-diagnosis: Engpassdiagnose 
+  sidebar-navlink-prediction: Engpassprognose 

@@ -3,6 +3,10 @@ html {
     margin: 0;
 }
 
+img {
+    max-width: 100%;
+}
+
 .row {
     --bs-gutter-x: 0; 
 }
@@ -13,12 +17,21 @@ html {
     margin: 0.25rem;
 }
 
-#app-sidebar-nav-link-select, #app-sidebar-nav-link-detect, #app-sidebar-nav-link-diagnose, #app-sidebar-nav-link-predict {
+#sidebar-navlink-selection, #sidebar-navlink-detection, #sidebar-navlink-diagnosis, #sidebar-navlink-prediction {
     border: 1px;
     border-color: grey;
     border-style: solid;
     margin-bottom: 15px;
     width: 100%;
+}
+
+#app-body-content-parameter, #app-body-content-button, #app-body-detection-accordion-buffer-level {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+#alert-no-data-source-selected {
+    margin-top: 1.5rem;
 }
 
 #app-content {
@@ -50,6 +63,7 @@ html {
 
 #app-body {
     padding: 0.5rem;
+    width: 74%;
 }
 
 #app-footer {

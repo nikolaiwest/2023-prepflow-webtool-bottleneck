@@ -4,21 +4,23 @@ from dash import Dash
 
 from src.components import layout
 from src.auxiliaries import callbacks
-from src.auxiliaries.storage import DEFAULT_CONFIG, DATA_SOURCE
+from src.auxiliaries.storage import CONFIG_APP, CONFIG_DATA
 
 
 def main() -> None:
-    i18n.set("locale", DEFAULT_CONFIG["language"])
+    """Main function to run the dash app for BottleNext."""
+    # Initialize language settings
+    i18n.set("locale", CONFIG_APP["user_language"])
     i18n.load_path.append("locale")
 
-    # New app
+    # Create new app
     app = Dash(__name__, suppress_callback_exceptions=True)
 
     # Set static title and create layout
     app.title = "PrEPFlow-Webtool"
-    app.layout = layout.create(app, DEFAULT_CONFIG, DATA_SOURCE)
+    app.layout = layout.create(app, CONFIG_APP, CONFIG_DATA)
 
-    # Register callbacks
+    # Register additional callbacks
     callbacks.register(app)
 
     # Run app

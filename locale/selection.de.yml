@@ -8,3 +8,7 @@ de:
   card-upload-title: Verwende eigene Daten
   card-upload-descr: Ermöglicht Ihnen das Hochladen eigener Daten aus einem Wertstrom in Form von CSV-Dateien.
   card-upload-button: Eigene Daten hochladen
+  selection-default-title1: 🔽 Beschreibung des Datensatzes 
+  selection-default-title2: 🔽 Empfehlungen zur Verwendung 
+  selection-default-text1: Der Beispieldatensatz wurde mit Hilfe einer diskreten Ereignissimulation erstellt. Er enthält Daten einer Fertigungsstraße mit 5 Stationen (S) bzw. 6 Puffern (B). In der Simulation wurden die Systemgrenzen als unendlich angenommen, weshalb sowohl der erste Puffer wie auch der letzte Puffer aus der Betrachtung der Engpassanalyse entfallen. Mit insgesamt 10 Millionen simulierten Zeitschritten ist der Datensatz vergleichsweise groß.
+  selection-default-text2: Der Vorteil dieses Beispieldatensatzes ist, dass er schnell angewendet werden kann.  Sowohl die Simulation als auch das Hochladen der eigenen Daten ist mit längeren Berechnungszeiten verbunden. Die Dauer dieser Vorgänge ist stark von den gewählten Parametern bzw. von der Größe der jeweiligen Datensätze abhängig. Der Datensatz wurde bereits in einer Veröffentlichung zur Engpassvorhersage verwendet, die als Grundlage für dieses Werkzeug dient [West et al. 2023]. Um einen Einblick in die Struktur der Daten zu erhalten, kann auch ein exemplarischer Datenauszug heruntergeladen werden. 
