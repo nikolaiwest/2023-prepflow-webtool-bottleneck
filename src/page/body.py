@@ -19,9 +19,6 @@ def get_body(app: Dash, config_app: dict, config_data: dict) -> html.Div:
     if config_app[ConfigName.navlink] == "Initial":
         return render_initial_info()
     elif config_app[ConfigName.navlink] == Options.sidebar[0]:
-        print("Rendering selection")
-        print(config_app)
-        print(config_data)
         return selection.render(app, config_app, config_data)
     elif config_app[ConfigName.navlink] == Options.sidebar[1]:
         return detection.render(app, config_app, config_data)
@@ -36,6 +33,6 @@ def render_initial_info() -> html.Div:
         id="alert-no-sidebar-selected",
         children=Alert(
             "Select an option on the sidebar on the left to get started with the bottleneck analysis.",
-            color="info",
+            color="secondary",
         ),
     )

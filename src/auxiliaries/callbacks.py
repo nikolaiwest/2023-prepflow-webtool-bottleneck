@@ -6,6 +6,12 @@ from dash.dependencies import Input, Output, State
 
 from ..page import body
 from ..components import layout
+from ..components.detection import (
+    DetectionName,
+    plot_bottlenecks,
+    plot_buffer_level,
+    plot_active_periods,
+)
 from ..page.sidebar import LinkName
 from ..auxiliaries.options import Options
 from ..auxiliaries.storage import ConfigName
@@ -45,9 +51,28 @@ def register(app):
         config_app,
         config_data,
     ):
-        print(
-            "Callback triggered: Change of navlink selection (one of four links selected)"
-        )
+        """
+        Update the application layout and user configuration based on user selections.
+
+        This callback function handles user interactions with dropdowns to change the language and theme,
+        as well as the navigation links. It updates the application layout and user configuration
+        accordingly.
+
+        Parameters:
+            selected_language_en (int): Number of clicks on the English language dropdown.
+            selected_language_de (int): Number of clicks on the German language dropdown.
+            selected_theme_light (int): Number of clicks on the Light theme dropdown.
+            selected_theme_dark (int): Number of clicks on the Dark theme dropdown.
+            navlink_select (int): Number of clicks on the "Selection" navigation link.
+            navlink_detect (int): Number of clicks on the "Detection" navigation link.
+            navlink_diagnose (int): Number of clicks on the "Diagnosis" navigation link.
+            navlink_predict (int): Number of clicks on the "Prediction" navigation link.
+            config_app (dict): A dictionary containing configuration settings for the application.
+            config_data (dict): A dictionary containing configuration data.
+
+        Returns:
+            tuple: A tuple containing the updated application layout and user configuration.
+        """
         selection = callback_context.triggered[0]["prop_id"].split(".")[0]
         # Update conf based on language selection
         if selection == "header-dropdown-language-select-en":
@@ -92,6 +117,22 @@ def register(app):
         config_app,
         config_data,
     ):
+        """
+        Update the data source selection and the application body content based on user interactions.
+
+        This callback function handles user interactions with buttons to change the data source selection.
+        It updates the data source selection and the content of the application body accordingly.
+
+        Parameters:
+            button_default_clicked (int): Number of clicks on the "Default Data" button.
+            button_simulate_clicked (int): Number of clicks on the "Simulate Data" button.
+            button_upload_clicked (int): Number of clicks on the "Upload Data" button.
+            config_app (dict): A dictionary containing configuration settings for the application.
+            config_data (dict): A dictionary containing configuration data.
+
+        Returns:
+            tuple: A tuple containing the updated application body content and data source selection.
+        """
         print("Callback triggered: Change of data source (one of three cards selected)")
         selection = callback_context.triggered[0]["prop_id"].split(".")[0]
         if selection == "app-body-button-default-data":
@@ -111,6 +152,75 @@ def register(app):
     def update_data(
         button_clicked,
     ):
-        print("Rendering for new data.")
         # load data
         return pd.read_csv("data/active_periods_10000.csv").to_json(orient="split")
+
+    @app.callback(
+        Output(DetectionName.fig_bottleneck, "figure"),
+        Output(DetectionName.fig_buffer_level, "figure"),
+        Output(DetectionName.fig_active_periods, "figure"),
+        Input(DetectionName.fig_bottleneck, "relayoutData"),
+        Input(DetectionName.fig_buffer_level, "relayoutData"),
+        Input(DetectionName.fig_active_periods, "relayoutData"),
+        State(ConfigName.app, "data"),
+    )
+    def update_plot_layouts(
+        relayout_bottlenecks,
+        relayout_buffer_level,
+        relayout_active_periods,
+        config_app,
+    ):
+        """
+        Update the plot layouts after a user selection.
+
+        This callback function is triggered when the user interacts with the plot layouts for bottleneck analysis,
+        buffer levels, or active periods. It captures the user's selection, specifically the x-axis range,
+        and updates the respective figures with the new x-axis range if available. If no x-axis range is provided
+        or if an invalid selection is made, the figures are updated with the default x-axis range.
+
+        Parameters:
+            relayout_bottlenecks (dict): The relayoutData from the bottleneck figure.
+            relayout_buffer_level (dict): The relayoutData from the buffer level figure.
+            relayout_active_periods (dict): The relayoutData from the active periods figure.
+            config_app (dict): A dictionary containing configuration settings for the application.
+            config_data (dict): A dictionary containing configuration data.
+
+        Returns:
+            tuple: A tuple containing updated figures for bottleneck analysis, buffer levels, and active periods.
+
+        Notes:
+            - This function is used as a callback to dynamically update the plots based on user interaction.
+            - It determines the x-axis range from the selected plot's relayoutData and updates all figures with
+            the same x-axis range.
+            - If no x-axis range is available or if an invalid selection is made, the default x-axis range is used.
+        """
+        # Get selection from callback context
+        selection = callback_context.triggered[0]["prop_id"].split(".")[0]
+        try:
+            # Determine the x-axis range from any of the scatter plots
+            xaxis_range = None
+            if selection == DetectionName.fig_bottleneck:
+                x1 = relayout_bottlenecks["xaxis.range[0]"]
+                x2 = relayout_bottlenecks["xaxis.range[1]"]
+                xaxis_range = [x1, x2]
+            elif selection == DetectionName.fig_buffer_level:
+                x1 = relayout_buffer_level["xaxis.range[0]"]
+                x2 = relayout_buffer_level["xaxis.range[1]"]
+                xaxis_range = [x1, x2]
+            elif selection == DetectionName.fig_active_periods:
+                x1 = relayout_active_periods["xaxis.range[0]"]
+                x2 = relayout_active_periods["xaxis.range[1]"]
+                xaxis_range = [x1, x2]
+
+            # Create new figures for all scatter plots with the same x-axis range
+            figure_bottlenecks = plot_bottlenecks(config_app, xaxis_range)
+            figure_buffer_level = plot_buffer_level(config_app, xaxis_range)
+            figure_active_periods = plot_active_periods(config_app, xaxis_range)
+
+        except KeyError:
+            # Create new figures for all scatter plots with the same x-axis range
+            figure_bottlenecks = plot_bottlenecks(config_app)
+            figure_buffer_level = plot_buffer_level(config_app)
+            figure_active_periods = plot_active_periods(config_app)
+
+        return figure_bottlenecks, figure_buffer_level, figure_active_periods

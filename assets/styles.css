@@ -25,9 +25,13 @@ img {
     width: 100%;
 }
 
-#app-body-content-parameter, #app-body-content-button, #app-body-detection-accordion-buffer-level {
+#app-body-content-parameter, #app-body-content-button, #detection-accordion-buffer-level {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
+}
+
+#alert-detection {
+    margin-bottom: 0;
 }
 
 #alert-no-data-source-selected {
