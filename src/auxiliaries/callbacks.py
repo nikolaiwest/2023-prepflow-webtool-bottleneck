@@ -1,8 +1,13 @@
+import io
 import i18n
+import base64
 import pandas as pd
 
-from dash import callback_context
+from dash import callback_context, html
+from dash.exceptions import NonExistentEventException
 from dash.dependencies import Input, Output, State
+
+from dash_bootstrap_components import Alert, Button, Tooltip
 
 from ..page import body
 from ..components import layout
@@ -90,16 +95,16 @@ def register(app):
 
         # Update active sidebar based on navlink selection
         elif selection == LinkName.selection:
-            config_app[ConfigName.navlink] = Options.sidebar[0]
-        elif selection == LinkName.detection:
             config_app[ConfigName.navlink] = Options.sidebar[1]
-        elif selection == LinkName.diagnosis:
+        elif selection == LinkName.detection:
             config_app[ConfigName.navlink] = Options.sidebar[2]
-        elif selection == LinkName.prediction:
+        elif selection == LinkName.diagnosis:
             config_app[ConfigName.navlink] = Options.sidebar[3]
+        elif selection == LinkName.prediction:
+            config_app[ConfigName.navlink] = Options.sidebar[4]
         return layout.create(app, config_app, config_data), config_app
 
-    # update data source selection based on active card
+    # Update data source selection based on active card
     @app.callback(
         Output("app-body-content", "children"),
         Output(ConfigName.data, "data"),
@@ -133,7 +138,6 @@ def register(app):
         Returns:
             tuple: A tuple containing the updated application body content and data source selection.
         """
-        print("Callback triggered: Change of data source (one of three cards selected)")
         selection = callback_context.triggered[0]["prop_id"].split(".")[0]
         if selection == "app-body-button-default-data":
             config_data[ConfigName.source] = Options.selection[1]
@@ -143,18 +147,112 @@ def register(app):
             config_data[ConfigName.source] = Options.selection[3]
         return body.render(app, config_app, config_data), config_data
 
-    # update data after selection button was clicked
+    # Update data store after selection button was clicked
     @app.callback(
-        Output(ConfigName.active_periods, "data"),
-        Input("app-body-button-data-selection", "n_clicks"),
+        [
+            Output(ConfigName.active_periods, "data"),
+            Output(ConfigName.buffer_level, "data"),
+            Output("app-body-content-button-card", "children"),
+        ],
+        [
+            Input("app-body-button-data-selection", "n_clicks"),
+            State(ConfigName.data, "data"),
+            State(ConfigName.buffer_level_upload, "data"),
+            State(ConfigName.active_periods_upload, "data"),
+        ],
         prevent_initial_call=True,
     )
     def update_data(
         button_clicked,
+        config_data,
+        df_buffer_level_upload,
+        df_active_periods_upload,
     ):
-        # load data
-        return pd.read_csv("data/active_periods_10000.csv").to_json(orient="split")
+        print(f"Button press: {button_clicked}")
+        selection = callback_context.triggered[0]["prop_id"].split(".")[0]
+        print(f"Context {selection}")
 
+        # Check if user pressed "Continue"
+        if button_clicked is not None:
+            # SELECT EXAMPLE DATA
+            if config_data[ConfigName.source] == Options.selection[1]:
+                # Load example data from file (limiting to 10k to minimize loading times)
+                df_active_periods = pd.read_csv(
+                    "data/active_periods_10000.csv"
+                ).to_json(orient="split")
+                df_buffer_levels = pd.read_csv(
+                    "data/active_periods_10000.csv",
+                ).to_json(orient="split")
+                # Set confirmation alert
+                confirmation_default = html.Div(
+                    children=Alert(
+                        id="alert-default-data-loaded-successfully",
+                        children="The example with default data was loaded successfully and can be used in the further course of this analysis.",
+                        color="success",
+                    ),
+                )
+            # If selected to use simulation data
+            # PLACE HOLDER
+
+            # USE YOUR OWN DATA
+            if config_data[ConfigName.source] == Options.selection[3]:
+                #
+                df_buffer_levels = df_buffer_level_upload
+                df_active_periods = df_active_periods_upload
+
+                # Check uploaded data
+
+                # Set confirmation alert
+                confirmation_default = html.Div(
+                    children=Alert(
+                        id="alert-default-data-loaded-successfully",
+                        children="The custom data was uploaded successfully and can be used in the further course of this analysis.",
+                        color="success",
+                    ),
+                )
+            # Return loaded dataframes
+            return df_active_periods, df_buffer_levels, confirmation_default
+
+        else:
+            button = Button(
+                id="app-body-button-data-selection",
+                children=["Save selection and proceed to the next steps."],
+            )
+            return {}, {}, button
+
+    @app.callback(
+        Output(ConfigName.buffer_level_upload, "data"),
+        Output("upload-buffer-level", "children"),
+        Input("upload-buffer-level", "contents"),
+        Input("upload-buffer-level", "filename"),
+        prevent_initial_call=True,
+    )
+    def upload_buffer_level(
+        df,
+        file_name,
+    ):
+        _, df = df.split(",")
+        df = base64.b64decode(df)
+        df = pd.read_csv(io.StringIO(df.decode("utf-8")))
+        return df.to_json(orient="split"), file_name
+
+    @app.callback(
+        Output(ConfigName.active_periods_upload, "data"),
+        Output("upload-active-periods", "children"),
+        Input("upload-active-periods", "contents"),
+        Input("upload-active-periods", "filename"),
+        prevent_initial_call=True,
+    )
+    def upload_buffer_level(
+        df,
+        file_name,
+    ):
+        _, df = df.split(",")
+        df = base64.b64decode(df)
+        df = pd.read_csv(io.StringIO(df.decode("utf-8")))
+        return df.to_json(orient="split"), file_name
+
+    # Detection: Update figures according to selected data set
     @app.callback(
         Output(DetectionName.fig_bottleneck, "figure"),
         Output(DetectionName.fig_buffer_level, "figure"),
@@ -163,12 +261,16 @@ def register(app):
         Input(DetectionName.fig_buffer_level, "relayoutData"),
         Input(DetectionName.fig_active_periods, "relayoutData"),
         State(ConfigName.app, "data"),
+        State(ConfigName.active_periods, "data"),
+        State(ConfigName.buffer_level, "data"),
     )
     def update_plot_layouts(
         relayout_bottlenecks,
         relayout_buffer_level,
         relayout_active_periods,
         config_app,
+        df_active_periods,
+        df_buffer_level,
     ):
         """
         Update the plot layouts after a user selection.
@@ -194,6 +296,11 @@ def register(app):
             the same x-axis range.
             - If no x-axis range is available or if an invalid selection is made, the default x-axis range is used.
         """
+
+        # Prepare data for visualization
+        df_active_periods = pd.read_json(df_active_periods, orient="split")
+        df_buffer_level = pd.read_json(df_buffer_level, orient="split")
+
         # Get selection from callback context
         selection = callback_context.triggered[0]["prop_id"].split(".")[0]
         try:
@@ -213,14 +320,26 @@ def register(app):
                 xaxis_range = [x1, x2]
 
             # Create new figures for all scatter plots with the same x-axis range
-            figure_bottlenecks = plot_bottlenecks(config_app, xaxis_range)
-            figure_buffer_level = plot_buffer_level(config_app, xaxis_range)
-            figure_active_periods = plot_active_periods(config_app, xaxis_range)
+            figure_bottlenecks = plot_bottlenecks(
+                df_active_periods,
+                config_app,
+                xaxis_range,
+            )
+            figure_buffer_level = plot_buffer_level(
+                df_buffer_level,
+                config_app,
+                xaxis_range,
+            )
+            figure_active_periods = plot_active_periods(
+                df_active_periods,
+                config_app,
+                xaxis_range,
+            )
 
         except KeyError:
             # Create new figures for all scatter plots with the same x-axis range
-            figure_bottlenecks = plot_bottlenecks(config_app)
-            figure_buffer_level = plot_buffer_level(config_app)
-            figure_active_periods = plot_active_periods(config_app)
+            figure_bottlenecks = plot_bottlenecks(df_active_periods, config_app)
+            figure_buffer_level = plot_buffer_level(df_buffer_level, config_app)
+            figure_active_periods = plot_active_periods(df_active_periods, config_app)
 
         return figure_bottlenecks, figure_buffer_level, figure_active_periods

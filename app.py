@@ -14,7 +14,11 @@ def main() -> None:
     i18n.load_path.append("locale")
 
     # Create new app
-    app = Dash(__name__, suppress_callback_exceptions=True)
+    app = Dash(
+        __name__,
+        # Needed to dynamically create and remove components in the layout without raising warnings for nonexistent objects in callbacks
+        suppress_callback_exceptions=True,
+    )
 
     # Set static title and create layout
     app.title = "PrEPFlow-Webtool"
@@ -24,7 +28,10 @@ def main() -> None:
     callbacks.register(app)
 
     # Run app
-    app.run(port=8051, debug=True)
+    app.run(
+        port=8051,
+        debug=True,
+    )
 
 
 if __name__ == "__main__":

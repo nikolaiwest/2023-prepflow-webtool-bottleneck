@@ -2,3 +2,5 @@ en:
   title: BottleNext
   subtitle: Webtool for Bottleneck Analysis
   app_title: PrEPFlow-Webtool
+  body_warning_1: Select an option from the menu in the sidebar on the left to begin the bottleneck analysis. It is recommended to start with the data selection.
+  body_warning_2: An invalid selection was made for the sidebar. Please contact the system administrator if this problem persists.

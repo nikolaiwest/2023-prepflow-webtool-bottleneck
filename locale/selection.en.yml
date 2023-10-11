@@ -12,3 +12,6 @@ en:
   selection-default-title2: 🔽 Recommendations for usage 
   selection-default-text1: The exemplary data set was created with the help of a discrete event simulation. It contains data of a production line with 5 stations (S) or 6 buffers (B). In the simulation, the system boundaries were assumed to be infinite, so both the first buffer and the last buffer are omitted from consideration in the bottleneck analysis. With a total of 10 million simulated time steps, the data set is comparatively large.
   selection-default-text2: The advantage of this example data set is that it can be applied quickly.  Both the simulation and the uploading of custom data involve longer computation times. The duration of these processes depends strongly on the chosen parameters or on the size of the respective data sets. The dataset has already been used in a bottleneck prediction publication that serves as the basis for this tool [West et al. 2023].
+  selection-simulation-title1: 🔽 Details of the simulation
+  selection-simulation-title2: 🔽 Customization of the parameters
+  selection-simulation-text1: Contduct a discrete event simulation 

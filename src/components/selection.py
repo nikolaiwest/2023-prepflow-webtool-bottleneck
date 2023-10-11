@@ -1,6 +1,6 @@
 import i18n
 
-from dash import Dash, html
+from dash import Dash, html, dcc
 from dash_bootstrap_components import Row, Col, Card, CardImg, CardBody, Button, Alert
 
 from ..auxiliaries.options import Options
@@ -24,8 +24,6 @@ def render(
     config_data: dict,
 ) -> html.Div:
     """Display all content for data selection."""
-    print(config_app)
-    print(config_data)
     # render
     return html.Div(
         id="app-body-content-selection",
@@ -120,7 +118,7 @@ def render_selection_details(
     config_app: dict,
     config_data: dict,
 ) -> html.Div:
-    def _render_default(conf: dict) -> CardBody:
+    def _render_default() -> CardBody:
         """Display the description for the default data set."""
         # pick picture according to template
         if config_app[ConfigName.theme] == Options.theme[0]:
@@ -135,9 +133,14 @@ def render_selection_details(
                     [
                         Col(
                             [
+                                # Data description
                                 html.H4(i18n.t("selection.selection-default-title1")),
                                 html.Div(i18n.t("selection.selection-default-text1")),
-                                html.H4(i18n.t("selection.selection-default-title2")),
+                                # Reccomendations for usage
+                                html.H4(
+                                    i18n.t("selection.selection-default-title2"),
+                                    style={"margin-top": "1rem"},
+                                ),
                                 html.Div(i18n.t("selection.selection-default-text2")),
                             ]
                         ),
@@ -151,13 +154,13 @@ def render_selection_details(
             ],
         )
 
-    def _render_simulate(conf: dict) -> CardBody:
+    def _render_simulate() -> CardBody:
         """Display the description for the default data set."""
         # pick picture according to template
         if config_app[ConfigName.theme] == Options.theme[0]:
-            link_to_img = "assets/selection-simulate-data-dark.png"
-        elif config_app[ConfigName.theme] == Options.theme[1]:
             link_to_img = "assets/selection-simulate-data-light.png"
+        elif config_app[ConfigName.theme] == Options.theme[1]:
+            link_to_img = "assets/selection-simulate-data-dark.png"
         # render
         return CardBody(
             id="app-body-content-parameter-cardbody",
@@ -166,9 +169,16 @@ def render_selection_details(
                     [
                         Col(
                             [
-                                html.H4(i18n.t("selection.selection-simulate-title1")),
-                                # html.Div(i18n.t("selection.selection-default-text1")),
-                                html.H4(i18n.t("selection.selection-simulate-title2")),
+                                html.H4(
+                                    i18n.t("selection.selection-simulation-title1")
+                                ),
+                                html.Div(
+                                    i18n.t("selection.selection-simulation-text1"),
+                                ),
+                                html.H4(
+                                    i18n.t("selection.selection-simulation-title2"),
+                                    style={"margin-top": "1rem"},
+                                ),
                                 # html.Div(i18n.t("selection.selection-default-text2")),
                             ]
                         ),
@@ -191,32 +201,71 @@ def render_selection_details(
             ),
         )
 
-    def _render_upload(config_app: dict) -> CardBody:
-        return CardBody("PLACEHOLDER: Upload content goes here")
+    def _render_upload() -> CardBody:
+        return CardBody(
+            id="app-body-content-parameter-cardbody",
+            children=[
+                Row(
+                    [
+                        Col(
+                            [
+                                # Upload buffer level
+                                html.H4("Upload buffer level"),
+                                html.Div("This is a description"),
+                                dcc.Upload(
+                                    id="upload-buffer-level",
+                                    children=["Drag and Drop or Select a File"],
+                                    multiple=False,
+                                    accept=".csv",
+                                ),
+                            ],
+                        ),
+                        Col(
+                            [
+                                # Upload active periods
+                                html.H4("Upload active periods"),
+                                html.Div("Your text here"),
+                                dcc.Upload(
+                                    id="upload-active-periods",
+                                    children=["Drag and Drop or Select a File"],
+                                    multiple=False,
+                                    accept=".csv",
+                                ),
+                            ],
+                        ),
+                    ]
+                )
+            ],
+        )
 
     if config_data[ConfigName.source] == Options.selection[1]:
         return Card(
             id="app-body-content-parameter",
-            children=_render_default(config_app),
+            children=_render_default(),
         )
     elif config_data[ConfigName.source] == Options.selection[2]:
         return Card(
             id="app-body-content-parameter",
-            children=_render_simulate(config_app),
+            children=_render_simulate(),
         )
     elif config_data[ConfigName.source] == Options.selection[3]:
         return Card(
             id="app-body-content-parameter",
-            children=_render_upload(config_app),
+            children=_render_upload(),
         )
     else:
         return _render_initial()
 
 
 def render_confirmation_button(
-    app: Dash, config_app: dict, config_data: dict
+    app: Dash,
+    config_app: dict,
+    config_data: dict,
 ) -> html.Div:
-    if config_data[ConfigName.source] != Options.selection[0]:
+    # If no source selected, display warning
+    if config_data[ConfigName.source] == Options.selection[0]:
+        return html.Div()
+    elif config_data[ConfigName.source] in Options.selection[1:4]:
         return Card(
             id="app-body-content-button",
             children=CardBody(
@@ -224,10 +273,8 @@ def render_confirmation_button(
                 children=[
                     Button(
                         id="app-body-button-data-selection",
-                        children=["Save selection and proceed"],
+                        children=["Save selection and proceed to the next steps."],
                     ),
                 ],
             ),
         )
-    else:
-        html.Div()

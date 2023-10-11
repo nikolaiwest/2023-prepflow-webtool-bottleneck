@@ -9,8 +9,10 @@ class ConfigName:
     app = "user-config-app"
     data = "user-config-data"
     buffer_level = "data-buffer-level"
+    buffer_level_upload = "data-buffer-level-upload"
     machine_states = "data-machine-states"
     active_periods = "data-active-periods"
+    active_periods_upload = "data-active-periods-upload"
     # Name for dict keys (app)
     theme = "user_theme"
     navlink = "user_navlink"
@@ -21,9 +23,9 @@ class ConfigName:
 
 # Get dict with default values for app configuration
 CONFIG_APP = {
-    ConfigName.language: "en",
-    ConfigName.theme: "light",
-    ConfigName.navlink: "Initial",
+    ConfigName.language: Options.language[0],
+    ConfigName.theme: Options.theme[0],
+    ConfigName.navlink: Options.sidebar[0],
 }
 
 # Get dict with default values for data configuration
@@ -56,6 +58,9 @@ def register_config_data() -> Store:
     )
 
 
+# dcc.Store for the bottleneck analysis:
+
+
 def register_data_buffer_level() -> Store:
     """Registers a dcc.Store object to save buffer level data as a serialized json object."""
     # Get empty dataframe to initialize
@@ -84,6 +89,29 @@ def register_data_active_periods() -> Store:
     df = DataFrame({}).to_json(orient="split")
     return Store(
         id=ConfigName.active_periods,
+        data=df,
+        storage_type="session",
+    )
+
+
+# dcc.Store to handle intermediary uploaded user data:
+def register_data_buffer_level_upload() -> Store:
+    """Registers a dcc.Store object to save buffer level data as a serialized json object."""
+    # Get empty dataframe to initialize
+    df = DataFrame({}).to_json(orient="split")
+    return Store(
+        id=ConfigName.buffer_level_upload,
+        data=df,
+        storage_type="session",
+    )
+
+
+def register_data_active_periods_upload() -> Store:
+    """Registers a dcc.Store object to save active period data as a serialized json object."""
+    # Get empty dataframe to initialize
+    df = DataFrame({}).to_json(orient="split")
+    return Store(
+        id=ConfigName.active_periods_upload,
         data=df,
         storage_type="session",
     )

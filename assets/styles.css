@@ -7,6 +7,10 @@ img {
     max-width: 100%;
 }
 
+h4 {
+    margin-top: 0.5rem;
+}
+
 .row {
     --bs-gutter-x: 0; 
 }
@@ -25,12 +29,12 @@ img {
     width: 100%;
 }
 
-#app-body-content-parameter, #app-body-content-button, #detection-accordion-buffer-level {
+#app-body-content-parameter, #app-body-content-button, #detection-accordion-buffer-level, #diagnosis-severity-accordion, #app-body-content-prediction-results {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
 }
 
-#alert-detection {
+#alert-detection, #alert-default-data-loaded-successfully {
     margin-bottom: 0;
 }
 
@@ -75,3 +79,14 @@ img {
     bottom: 0;
     left: 0;
 }
+
+#upload-active-periods, #upload-buffer-level {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        border-width: 1px;
+        border-style: dashed;
+        border-radius: 5px;
+        text-align: center;
+        margin-top: 1.5rem;
+    }

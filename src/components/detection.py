@@ -137,6 +137,7 @@ def get_visualizations(
 
 
 def plot_bottlenecks(
+    df: pd.DataFrame,
     config_app: dict,
     xaxis_range: list = None,
 ):
@@ -149,9 +150,6 @@ def plot_bottlenecks(
         config_data (dict): A dictionary containing configuration data.
         xaxis_range (list, optional): The range of x-axis values for the plot. Default is None.
     """
-    # Load data (later from path)
-    df = pd.read_csv("data/active_periods_10000.csv", nrows=10000)
-
     color_dict = {category: i for i, category in enumerate(df[df.columns[-1]].unique())}
 
     # Get figure from active periods
@@ -174,14 +172,15 @@ def plot_bottlenecks(
     )
 
     # Update ax labels
-    figure.update_xaxes(title_text="Current bottleneck station")
-    figure.update_yaxes(title_text="Buffer level [parts]")
+    figure.update_xaxes(title_text="Simulation time [t]")
+    figure.update_yaxes(title_text="Current bottleneck station")
 
     # Return graph as accordion item
     return figure
 
 
 def plot_buffer_level(
+    df: pd.DataFrame,
     config_app: dict,
     xaxis_range: list = None,
 ):
@@ -221,6 +220,7 @@ def plot_buffer_level(
 
 
 def plot_active_periods(
+    df: pd.DataFrame,
     config_app: dict,
     xaxis_range: list = None,
 ):
@@ -233,8 +233,6 @@ def plot_active_periods(
         config_data (dict): A dictionary containing configuration data.
         xaxis_range (list, optional): The range of x-axis values for the plot. Default is None.
     """
-    # Load data (later from path)
-    df = pd.read_csv("data/active_periods_10000.csv", nrows=10000)
 
     # Get figure from active periods
     figure = px.scatter(
@@ -252,8 +250,8 @@ def plot_active_periods(
         )
 
     # Update ax labels
-    figure.update_xaxes(title_text="Current active period")
-    figure.update_yaxes(title_text="Buffer level [parts]")
+    figure.update_xaxes(title_text="Simulation time [t]")
+    figure.update_yaxes(title_text="Current active period")
 
     # Return graph as accordion item
     return figure

@@ -6,9 +6,10 @@ class Options:
         "upload-existing-data",
     ]
     sidebar = [
+        "initial",
         "selection",
         "detection",
-        "dignosis",
+        "diagnosis",
         "prediction",
     ]
     language = ["en", "de"]

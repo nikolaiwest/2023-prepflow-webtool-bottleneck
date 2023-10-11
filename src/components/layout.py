@@ -39,6 +39,8 @@ def create(
             storage.register_data_buffer_level(),
             storage.register_data_machine_states(),
             storage.register_data_active_periods(),
+            storage.register_data_buffer_level_upload(),
+            storage.register_data_active_periods_upload(),
             # Set Theme
             get_stylesheet(config_app),
             # Render header
