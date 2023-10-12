@@ -1,5 +1,6 @@
 import simpy
-from station import Station
+
+from .station import Station
 
 
 class Factory:

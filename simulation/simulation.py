@@ -1,9 +1,9 @@
 import os
 import csv
-import simpy
+import pandas as pd
 
-from factory import Factory
-from station import Station
+from .factory import Factory
+from .bottlenecks import Bottlenecks
 
 
 def run_simulation(
@@ -93,12 +93,52 @@ def run_simulation(
         # reset level of 'B0' to 'capa_inf'
         factory.restock_customer(capa_inf)
 
+    events = get_events(path="events.csv")
+    events.to_csv("events.csv")
+
 
 def write_new_row(path: str, row: list) -> None:
     with open(path, "a+", newline="") as f:
         csv.writer(f).writerow(row)
 
 
+def get_events(path) -> pd.DataFrame:
+    df = pd.read_csv(path)
+    df["status"] = "init"
+
+    for index, event in df.iterrows():
+        # set 'status' to 'active' if a new job was started
+        if event["event_type"] == "job start" and event["num_job"] != 1:
+            df.loc[index, "status"] = "active"
+        elif event["event_type"] == "job finish":
+            _check_status = station_remains_active(
+                df, event["num_station"], event["num_job"]
+            )
+            if _check_status.size > 0 and _check_status:
+                df.loc[index, "status"] = "active"
+            else:
+                df.loc[index, "status"] = "passive"
+        else:
+            # remain init for 'num_job' == 1
+            pass
+    return df
+
+
+def station_remains_active(events, num_station, num_job) -> bool:
+    time_finish_last_job = events[
+        (events["num_station"] == num_station)
+        & (events["num_job"] == num_job)
+        & (events["event_type"] == "job finish")
+    ]["t"].values
+    time_start_next_job = events[
+        (events["num_station"] == num_station)
+        & (events["num_job"] == num_job + 1)
+        & (events["event_type"] == "job start")
+    ]["t"].values
+    return time_finish_last_job == time_start_next_job
+
+
+# Just for testing
 if __name__ == "__main__":
     scenario = {
         "process_times": [2, 2.25, 2, 2.25, 2],
@@ -110,4 +150,13 @@ if __name__ == "__main__":
         "capa_max": 10,
         "capa_inf": int(1e2),
     }
+    # Run
     run_simulation(**scenario)
+    # Load results from file
+    buffer_level = pd.read_csv("buffer.csv")
+    events = pd.read_csv("events.csv")
+    # Get active periods
+    bottlenecks = Bottlenecks(events)
+    active_periods = bottlenecks.calc_active_periods()
+    # Save
+    active_periods.to_csv("active_periods.csv")
