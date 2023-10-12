@@ -1,0 +1,7 @@
+en: 
+  bottleneck-title: Bottlenecks during the observation period
+  bottleneck-description: According to the Theory of Constraints, every system has at all times exactly one bottleneck. The plot displays the current bottleneck in the data set during every point in time of the observation period. 
+  buffer-level-title: Buffer level during the observation period
+  buffer-level-description: The buffer level is limited by the defined buffer capacity. As such, the plot of the buffer levels shows the current number of semi-finished products in each buffer, never exceeding the maximum capacity. 
+  active-periods-title: Active periods during the observation period
+  active-periods-description: According to the Active Period Method, the station with the longest active period is the current bottleneck. The plot displays the characteristic saw tooth profile of the current active periods of all stations. 

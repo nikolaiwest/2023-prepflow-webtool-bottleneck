@@ -1,0 +1,7 @@
+de:
+  frequency-title: Engpasshäufigkeit 
+  frequency-description: Die Engpasshäufigkeit ist ein einfaches Maß zur Bewertung der Auswirkungen eines Engpasses auf das gesamte System. Sie errechnet sich aus der Gesamtzahl der Fälle, in denen eine einzelne Maschine durch einen Engpass überlastet ist, bezogen auf den gesamten Beobachtungszeitraum.
+  severity-title: Engpasschwere 
+  severity-description: Die Engpassschwere ist ein Maß für den Grad der Auswirkung, den eine Engpasssituation auf das gesamte System hat. Bisher wurde die Funktionalität zur Darstellung der Engpasschwere nicht umgesetzt. Dies ist Bestandteil des geplanten Forschungsprojekts "DeDiFlow", das sich insbesondere mit der Detektion und Diagnose von dynamischen Engpässen in gerichteten Materialflusssystemen unter Betrachung von Pufferfüllständen beschäftigt. Sprechen Sie uns gerne bei Interesse an einer Beteilung am Projektbegleitenden Ausschuss an. 
+  bottleneck-costs-title: Engpasskosten 
+  bottleneck-costs-description: Die Engpasskosten sind ein Maß für den Grad der Auswirkung, den eine Engpasssituation auf das gesamte System hat. Bisher wurde die Funktionalität zur Darstellung der Engpasschwere nicht umgesetzt. Dies ist Bestandteil des geplanten Forschungsprojekts "DeDiFlow", das sich insbesondere mit der Detektion und Diagnose von dynamischen Engpässen in gerichteten Materialflusssystemen unter Betrachung von Pufferfüllständen beschäftigt. Sprechen Sie uns gerne bei Interesse an einer Beteilung am Projektbegleitenden Ausschuss an. 

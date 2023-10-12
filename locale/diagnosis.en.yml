@@ -1,0 +1,7 @@
+en:
+  frequency-title: Bottleneck Frequency
+  frequency-description: The bottleneck frequency is a simple measure to assess a bottleneck's effect to the entire system. It is calculated from the total instances that a single machine is congested by a bottleneck, compared to the entire observation period. 
+  severity-title: Bottleneck Severity
+  severity-description: The bottleneck severity is a measurement to assess the degree of effect that one bottleneck situation has on the entire system. So far, the functionality to represent the bottleneck severity has not been implemented. This is part of the planned research project "DeDiFlow", which deals in particular with the detection and diagnosis of dynamic bottlenecks in directed material flow systems under consideration of buffer levels. Please contact us if you are interested in participating in the project committee.
+  bottleneck-costs-title: Bottleneck Costs
+  bottleneck-costs-description: The bottleneck costs is a measurement to assess the degree of effect that one bottleneck situation has on the entire system. So far, the functionality to represent the bottleneck severity has not been implemented. This is part of the planned research project "DeDiFlow", which deals in particular with the detection and diagnosis of dynamic bottlenecks in directed material flow systems under consideration of buffer levels. Please contact us if you are interested in participating in the project committee.

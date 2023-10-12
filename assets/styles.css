@@ -34,7 +34,7 @@ h4 {
     margin-bottom: 1.5rem;
 }
 
-#alert-detection, #alert-default-data-loaded-successfully {
+#alert-detection, #alert-default-data-loaded-successfully, #alert-default-data-loaded-unsuccessfully {
     margin-bottom: 0;
 }
 
@@ -59,7 +59,7 @@ h4 {
     margin: 0;
 }
 
-#app-header-menu-col {
+#app-header-menu {
     padding: 0;
 }
 
@@ -90,3 +90,7 @@ h4 {
         text-align: center;
         margin-top: 1.5rem;
     }
+
+#app-body-button-data-selection {
+    width: 100%;
+}

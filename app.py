@@ -16,12 +16,12 @@ def main() -> None:
     # Create new app
     app = Dash(
         __name__,
-        # Needed to dynamically create and remove components in the layout without raising warnings for nonexistent objects in callbacks
         suppress_callback_exceptions=True,
     )
 
     # Set static title and create layout
     app.title = "PrEPFlow-Webtool"
+    app._favicon = "icon.ico"
     app.layout = layout.create(app, CONFIG_APP, CONFIG_DATA)
 
     # Register additional callbacks

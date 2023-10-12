@@ -1,17 +1,36 @@
 en: 
-  card-select-title: Select example data
-  card-select-descr: Allows you to perform the bottleneck analysis with a sample data set already available.
-  card-select-button: Use the default data
+  card-select-title: Use sample data
+  card-select-descr: Allows performing the bottleneck analysis with a prepared sample data set.
+  card-select-button: Select
   card-simulate-title: Simulate new data
-  card-simulate-descr: Enables the generation of new data by simulating a directed value stream.
-  card-simulate-button: Run a simulation
+  card-simulate-descr: Allows generating data using a custom simulation of a value stream.
+  card-simulate-button: Select
   card-upload-title: Use your own data
-  card-upload-descr: Allows you to upload your own data from your manufacturing system in the form of CSV files.
-  card-upload-button: Upload manufacturing data
-  selection-default-title1: 🔽 Data description
-  selection-default-title2: 🔽 Recommendations for usage 
-  selection-default-text1: The exemplary data set was created with the help of a discrete event simulation. It contains data of a production line with 5 stations (S) or 6 buffers (B). In the simulation, the system boundaries were assumed to be infinite, so both the first buffer and the last buffer are omitted from consideration in the bottleneck analysis. With a total of 10 million simulated time steps, the data set is comparatively large.
-  selection-default-text2: The advantage of this example data set is that it can be applied quickly.  Both the simulation and the uploading of custom data involve longer computation times. The duration of these processes depends strongly on the chosen parameters or on the size of the respective data sets. The dataset has already been used in a bottleneck prediction publication that serves as the basis for this tool [West et al. 2023].
-  selection-simulation-title1: 🔽 Details of the simulation
-  selection-simulation-title2: 🔽 Customization of the parameters
-  selection-simulation-text1: Contduct a discrete event simulation 
+  card-upload-descr: Allows uploading data from your manufacturing system using CSV.
+  card-upload-button: Select
+  default-title1: 🔽 Data description
+  default-text1: The sample data originates from a value stream with five workstations S and six buffers B. The value stream is directed and the system boundaries are unconstrained. The process time pt was set to 2.00, with stations S1 and S3 having additional process time of 2.25. The maximum capacity of buffers bc was set to 5 parts for all buffers. The data set comprises 10 million time steps and is fully available online.
+  default-title2: 🔽 Recommendations for usage 
+  default-text2: The merit of this data set is that it can be applied quickly. Both the simulation and the use of own data are associated with longer calculation times, whereby the duration depends considerably on the selected parameters. Here, a model has already been pre-trained for the example data set, so the forecast can also be viewed quickly. A detailed description of this use case can be found in further detail in our publication on bottleneck forecasting, which serves as the basis for this web tool.
+  simulation-title1: 🔽 Details of the simulation
+  simulation-text1: With the help of a simulation, a new data set can be generated and used in the bottleneck analysis. Thus, comparable use cases can be tested without the need for existing data. In addition to the simulation, the calculation of the active operating periods also takes place in this step. The process is associated with longer range times. 10,000 time steps at five stations require about 15 minutes of calculation time.
+  simulation-title2: 🔽 Customization of the parameters
+  simulation-text2: In the following, all relevant parameters of the simulation can be defined. For further adjustments of the simulation we refer to our publication on bottleneck detection methods, which serves as a basis for the simulation.
+  simulation-param1: Number of stations
+  simulation-param2: Total simulation time
+  simulation-param3: Specify process times (pt)
+  simulation-param4: Specify buffer capacity (bc)
+  upload-title1: 🔽 Upload buffer level
+  upload-text1: The buffer levels contain the time as index, as well as an attribute per available buffer. This attribute indicates how many parts are currently stored in the buffer. The maximum fill level must not be exceeded.  The following is an exemplary excerpt of the data set.
+  upload-title2: 🔽 Upload active periods
+  upload-text2: The active operating periods contain information on the duration that the existing stations are active. There is a separate attribute for each station. In addition, the "bottleneck" attribute contains information about which station is currently active for the longest time. The following is an exemplary excerpt of the data set.
+  upload-button: Drag and Drop oder Select a File
+  confirm-and-proceed: Confirm selection and proceed with the analysis
+  confirm-upload-default: The example with default data was loaded successfully and can be used in the further course of this analysis.
+  confirm-upload-simulation: The simulation data was loaded successfully and can be used in the further course of this analysis.
+  confirm-upload-custom: The simulation data was loaded successfully and can be used in the further course of this analysis.
+  decline-upload-custom: The simulation data was not loaded successfully. Please select a valid source and repeat the upload process. 
+  default-link1: See repository with the example dataset
+  default-link2: See publication with the detailed analysis
+  simulation-link1: See respository with the manufacturing simulation
+  simulation-link2: See publication on bottleneck detection methods

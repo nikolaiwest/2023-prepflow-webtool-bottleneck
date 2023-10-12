@@ -1,3 +1,4 @@
+import i18n
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
@@ -108,8 +109,11 @@ def get_visualizations(
                 Accordion(
                     AccordionItem(
                         id=DetectionName.acc_bottleneck,
-                        children=Graph(DetectionName.fig_bottleneck),
-                        title="Bottlenecks",
+                        children=[
+                            html.Div(i18n.t("detection.bottleneck-description")),
+                            Graph(DetectionName.fig_bottleneck),
+                        ],
+                        title=i18n.t("detection.bottleneck-title"),
                     ),
                     start_collapsed=False,
                 ),
@@ -117,8 +121,11 @@ def get_visualizations(
                 Accordion(
                     AccordionItem(
                         id=DetectionName.acc_buffer_level,
-                        children=Graph(DetectionName.fig_buffer_level),
-                        title="Buffer level",
+                        children=[
+                            html.Div(i18n.t("detection.buffer-level-description")),
+                            Graph(DetectionName.fig_buffer_level),
+                        ],
+                        title=i18n.t("detection.buffer-level-title"),
                     ),
                     start_collapsed=True,
                 ),
@@ -126,8 +133,11 @@ def get_visualizations(
                 Accordion(
                     AccordionItem(
                         id=DetectionName.acc_active_periods,
-                        children=Graph(DetectionName.fig_active_periods),
-                        title="Active periods",
+                        children=[
+                            html.Div(i18n.t("detection.active-periods-description")),
+                            Graph(DetectionName.fig_active_periods),
+                        ],
+                        title=i18n.t("detection.active-periods-title"),
                     ),
                     start_collapsed=True,
                 ),
@@ -150,6 +160,7 @@ def plot_bottlenecks(
         config_data (dict): A dictionary containing configuration data.
         xaxis_range (list, optional): The range of x-axis values for the plot. Default is None.
     """
+
     color_dict = {category: i for i, category in enumerate(df[df.columns[-1]].unique())}
 
     # Get figure from active periods
@@ -193,8 +204,6 @@ def plot_buffer_level(
         config_data (dict): A dictionary containing configuration data.
         xaxis_range (list, optional): The range of x-axis values for the plot. Default is None.
     """
-    # Load data (later from path)
-    df = pd.read_csv("data/buffer_10000.csv", nrows=10000)
 
     # Get figure from active periods
     figure = px.scatter(

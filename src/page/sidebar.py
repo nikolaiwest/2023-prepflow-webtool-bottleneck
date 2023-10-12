@@ -31,13 +31,6 @@ def render(app: Dash, config_app: dict, config_data) -> html.Div:
                     # Bottleneck prediction
                     render_link(config_app, LinkName.prediction),
                     # debug
-                    html.Div(
-                        [
-                            html.Div(render_dict(config_app)),
-                            html.Hr(),
-                            html.Div(render_dict(config_data)),
-                        ]
-                    ),
                 ],
                 pills=True,
             ),

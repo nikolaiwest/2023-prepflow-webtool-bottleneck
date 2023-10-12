@@ -17,6 +17,8 @@ from ..components.detection import (
     plot_buffer_level,
     plot_active_periods,
 )
+from simulation.simulation import run_simulation
+from simulation.bottlenecks import Bottlenecks
 from ..page.sidebar import LinkName
 from ..auxiliaries.options import Options
 from ..auxiliaries.storage import ConfigName
@@ -168,13 +170,11 @@ def register(app):
         df_buffer_level_upload,
         df_active_periods_upload,
     ):
-        print(f"Button press: {button_clicked}")
         selection = callback_context.triggered[0]["prop_id"].split(".")[0]
-        print(f"Context {selection}")
 
         # Check if user pressed "Continue"
         if button_clicked is not None:
-            # SELECT EXAMPLE DATA
+            # If selected to use default data
             if config_data[ConfigName.source] == Options.selection[1]:
                 # Load example data from file (limiting to 10k to minimize loading times)
                 df_active_periods = pd.read_csv(
@@ -184,39 +184,80 @@ def register(app):
                     "data/active_periods_10000.csv",
                 ).to_json(orient="split")
                 # Set confirmation alert
-                confirmation_default = html.Div(
+                confirmation = html.Div(
                     children=Alert(
                         id="alert-default-data-loaded-successfully",
-                        children="The example with default data was loaded successfully and can be used in the further course of this analysis.",
+                        children=i18n.t("selection.confirm-upload-default"),
                         color="success",
                     ),
                 )
             # If selected to use simulation data
-            # PLACE HOLDER
+            if config_data[ConfigName.source] == Options.selection[2]:
+                # Run simulation and set data
+                scenario = {
+                    "process_times": [2, 2.25, 2, 2.25, 2],
+                    "simulation_time": 10000,
+                    "path_buffer": "buffer.csv",
+                    "path_events": "events.csv",
+                    "save_results": True,
+                    "capa_init": 0,
+                    "capa_max": 10,
+                    "capa_inf": int(1e2),
+                }
+                # Run
+                if False:  # temporary disabled
+                    run_simulation(**scenario)
+                    # Load results from file
+                    buffer_level = pd.read_csv("buffer.csv")
+                    events = pd.read_csv("events.csv")
+                    # Get active periods
+                    bottlenecks = Bottlenecks(events)
+                    active_periods = bottlenecks.calc_active_periods()
 
-            # USE YOUR OWN DATA
+                df_buffer_levels = {}  # place holder
+                df_active_periods = {}
+
+                # Set confirmation alert
+                confirmation = html.Div(
+                    children=Alert(
+                        id="alert-default-data-loaded-successfully",
+                        children=i18n.t("selection.confirm-upload-simulation"),
+                        color="success",
+                    ),
+                )
+
+            # If selected to use custom data
             if config_data[ConfigName.source] == Options.selection[3]:
                 #
                 df_buffer_levels = df_buffer_level_upload
                 df_active_periods = df_active_periods_upload
 
                 # Check uploaded data
-
-                # Set confirmation alert
-                confirmation_default = html.Div(
-                    children=Alert(
-                        id="alert-default-data-loaded-successfully",
-                        children="The custom data was uploaded successfully and can be used in the further course of this analysis.",
-                        color="success",
-                    ),
-                )
+                if df_buffer_levels is None or df_active_periods is None:
+                    # Set confirmation alert
+                    confirmation = html.Div(
+                        children=Alert(
+                            id="alert-default-data-loaded-unsuccessfully",
+                            children=i18n.t("selection.decline-upload-custom"),
+                            color="danger",
+                        ),
+                    )
+                else:
+                    # Set confirmation alert
+                    confirmation = html.Div(
+                        children=Alert(
+                            id="alert-default-data-loaded-successfully",
+                            children=i18n.t("selection.confirm-upload-custom"),
+                            color="success",
+                        ),
+                    )
             # Return loaded dataframes
-            return df_active_periods, df_buffer_levels, confirmation_default
+            return df_active_periods, df_buffer_levels, confirmation
 
         else:
             button = Button(
                 id="app-body-button-data-selection",
-                children=["Save selection and proceed to the next steps."],
+                children=[i18n.t("selection.confirm-and-proceed")],
             )
             return {}, {}, button
 
@@ -231,10 +272,13 @@ def register(app):
         df,
         file_name,
     ):
-        _, df = df.split(",")
-        df = base64.b64decode(df)
-        df = pd.read_csv(io.StringIO(df.decode("utf-8")))
-        return df.to_json(orient="split"), file_name
+        if df is not None:
+            _, df = df.split(",")
+            df = base64.b64decode(df)
+            df = pd.read_csv(io.StringIO(df.decode("utf-8")))
+            return df.to_json(orient="split"), file_name
+        else:
+            return None, i18n.t("selection.upload-button")
 
     @app.callback(
         Output(ConfigName.active_periods_upload, "data"),
@@ -247,10 +291,13 @@ def register(app):
         df,
         file_name,
     ):
-        _, df = df.split(",")
-        df = base64.b64decode(df)
-        df = pd.read_csv(io.StringIO(df.decode("utf-8")))
-        return df.to_json(orient="split"), file_name
+        if df is not None:
+            _, df = df.split(",")
+            df = base64.b64decode(df)
+            df = pd.read_csv(io.StringIO(df.decode("utf-8")))
+            return df.to_json(orient="split"), file_name
+        else:
+            return None, i18n.t("selection.upload-button")
 
     # Detection: Update figures according to selected data set
     @app.callback(

@@ -1,20 +1,34 @@
 from dash import Dash, html
-from dash_bootstrap_components import Col, DropdownMenu, DropdownMenuItem
+from dash_bootstrap_components import Col, Row, DropdownMenu, DropdownMenuItem
 
 
 def render(app: Dash) -> html.Div:
     return html.Div(
         id="app-header-content",
         children=[
+            # Logo in column
+            Col(
+                id="app-header-logo",
+                width=1,
+                children=[html.Img(src="assets/logo.svg", height=100)],
+            ),
             # Title in column
             Col(
-                id="app-header-title-col",
-                width=10,
-                children=[html.H1("BottleNext", id="app-header-title")],
+                id="app-header-title",
+                width=9,
+                children=html.H1(
+                    [
+                        "Bottle",
+                        html.Span(
+                            "Next",
+                            style={"color": "rgb(30, 161, 179)", "font-weight": "bold"},
+                        ),
+                    ]
+                ),
             ),
             # Dropdowns in column
             Col(
-                id="app-header-menu-col",
+                id="app-header-menu",
                 width=2,
                 children=[render_dropdown_language(), render_dropdown_theme()],
             ),

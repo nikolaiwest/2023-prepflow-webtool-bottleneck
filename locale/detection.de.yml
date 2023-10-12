@@ -1,0 +1,7 @@
+de: 
+  bottleneck-title: Engpässe während des Beobachtungszeitraums
+  bottleneck-description: Nach der Engpasstheorie hat jedes System zu jedem Zeitpunkt genau einen Engpass. Die Darstellung zeigt den aktuellen Engpass im Datensatz zu jedem Zeitpunkt des Beobachtungszeitraums an. 
+  buffer-level-title: Pufferfüllstand während des Beobachtungszeitraums
+  buffer-level-description: Der Pufferfüllstand wird durch die definierte Pufferkapazität begrenzt. Die Darstellung der Pufferfüllstände zeigt also die aktuelle Anzahl der Halbfertigprodukte in jedem Puffer, wobei die maximale Kapazität nie überschritten wird. 
+  active-periods-title: Aktive Perioden während des Beobachtungszeitraums
+  active-periods-description: Nach der Methode der aktiven Perioden ist die Station mit der längsten aktiven Periode der aktuelle Engpass. Die Darstellung zeigt das charakteristische Sägezahnprofil der aktuellen aktiven Perioden aller Stationen.

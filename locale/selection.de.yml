@@ -1,17 +1,36 @@
 de: 
   card-select-title: Verwende Beispieldaten
   card-select-descr: Ermöglicht die Durchführung der Engpassanalyse mit einem bereits verfügbaren Beispieldatensatz.
-  card-select-button: Verwende die Beispieldaten
+  card-select-button: Auswählen 
   card-simulate-title: Nutze eine Simulation
   card-simulate-descr: Ermöglicht die Erzeugung von neuen Daten durch die Simulation eines gerichteten Wertstroms.
-  card-simulate-button: Neue Daten simulieren 
-  card-upload-title: Verwende eigene Daten
-  card-upload-descr: Ermöglicht Ihnen das Hochladen eigener Daten aus einem Wertstrom in Form von CSV-Dateien.
-  card-upload-button: Eigene Daten hochladen
-  selection-default-title1: 🔽 Beschreibung des Datensatzes 
-  selection-default-title2: 🔽 Empfehlungen zur Verwendung 
-  selection-default-text1: Der Beispieldatensatz wurde mit Hilfe einer diskreten Ereignissimulation erstellt. Er enthält Daten einer Fertigungsstraße mit 5 Stationen (S) bzw. 6 Puffern (B). In der Simulation wurden die Systemgrenzen als unendlich angenommen, weshalb sowohl der erste Puffer wie auch der letzte Puffer aus der Betrachtung der Engpassanalyse entfallen. Mit insgesamt 10 Millionen simulierten Zeitschritten ist der Datensatz vergleichsweise groß.
-  selection-default-text2: Der Vorteil dieses Beispieldatensatzes ist, dass er schnell angewendet werden kann.  Sowohl die Simulation als auch das Hochladen der eigenen Daten ist mit längeren Berechnungszeiten verbunden. Die Dauer dieser Vorgänge ist stark von den gewählten Parametern bzw. von der Größe der jeweiligen Datensätze abhängig. Der Datensatz wurde bereits in einer Veröffentlichung zur Engpassvorhersage verwendet, die als Grundlage für dieses Werkzeug dient [West et al. 2023]. Um einen Einblick in die Struktur der Daten zu erhalten, kann auch ein exemplarischer Datenauszug heruntergeladen werden. 
-  selection-simulation-title1: 🔽 Details zur Simulation
-  selection-simulation-title2: 🔽 Anpassung der Parameter
-  selection-simulation-text1: Führe eine diskrete Eventsimulation durch
+  card-simulate-button: Auswählen 
+  card-upload-title: Verwende eigene Daten 
+  card-upload-descr: Ermöglicht das Hochladen eigener Daten aus einem Wertstrom mittels entsprechenden CSV-Dateien.
+  card-upload-button: Auswählen 
+  default-title1: 🔽 Beschreibung des Datensatzes 
+  default-text1: Der Beispieldatensatz stammt von einem Wertstrom mit fünf Arbeitsstationen S und sechs Puffern B. Der Wertstrom ist gerichtet und die Systemgrenzen sind unbeschränkt. Als Prozesszeiten pt wurde 2,00 festgelegt, wobei die Stationen S1 und S3 zusätzliche Prozesszeit mit 2,25 besitzen. Als Maximalbestand der Puffer bc wurden für alle Puffer 5 Teile festgelegt. Der Datensatz umfasst 10 Millionen Zeitschritte und ist vollständig online verfügbar. 
+  default-title2: 🔽 Hinweise zur Verwendung 
+  default-text2: Der Vorteil dieses Datensatzes ist, dass er schnell angewendet werden kann. Sowohl die Simulation als auch die Verwendung eigener Daten ist mit längeren Berechnungszeiten verbunden, wobei die Dauer erheblich von den gewählten Parametern abhängt. Für den Beispieldatensatz wurde bereits ein Modell vortrainiert, sodass auch die Prognose schnell eingesehen werden kann. Eine ausführliche Beschreibung dieses Anwendungsfalls findet sich weiterführend in unserer Veröffentlichung zur Engpassprognose, die als Basis für dieses Webtool dient.
+  simulation-title1: 🔽 Details zur Simulation
+  simulation-text1: Mithilfe einer Simulation kann ein neuer Datensatz erzeugt und in der Engpassanalyse verwendet werden. Dadurch können vergleichbare Anwendungsfälle erprobt werden, ohne das vorliegende Daten notwendig sind. Neben der Simulation erfolgt in diesem Schritt außerdem die Berechnung der aktiven Betriebsperioden. Der Vorgang ist mit längeren Bereichnungszeiten verbunden. 10.000 Zeitschritte bei fünf Stationen erfordern circa 15 Minuten Berechnungszeit. 
+  simulation-title2: 🔽 Festlegung der Parameter
+  simulation-text2: Im folgenden können alle relevanten Parameter der Simulation festgelegt werden. Für weiterführende Anpassungen der Simulation verweisen wir auf unsere Veröffentlichung zu Engpass-Detektionsverfahren, die als Grundlage der Simulation dient. 
+  simulation-param1: Anzahl der Stationen 
+  simulation-param2: Gesamte Simulationsdauer
+  simulation-param3: Prozesszeit festlegen (pt)
+  simulation-param4: Pufferkapazitäten festlegen (bc)
+  upload-title1: 🔽 Pufferfüllstände hochladen
+  upload-text1: Die Pufferfüllstände enthalten die Zeit als Index, sowie ein Attribut pro vorhandenem Puffer. Dieses Attribut gibt an, wie viele Teile aktuell im Puffer gelagert werden. Der maximale Füllstand darf nicht überschritten werden. Es folgt ein beispielhafter Auszug aus dem Datensatz. 
+  upload-title2: 🔽 Aktive Betriebsperioden hochladen
+  upload-text2: Die aktiven Betriebsperioden enthalten Angaben zur Dauer, die die vorhandenen Stationen aktiv sind. Für jede Station exisitiert dafür ein eigenes Attribut. Außerdem enthält das Attribut "bottleneck" eine Angabe dazu, welche Station aktuell am längsten aktiv ist. Es folgt ein beispielhafter Auszug aus dem Datensatz.
+  upload-button: Drag und Drop oder eine Datei auswählen
+  confirm-and-proceed: Auswahl bestätigen und mit der Analyse fortfahren
+  confirm-upload-default: Das Beispiel mit Standarddaten wurde erfolgreich geladen und kann im weiteren Verlauf dieser Analyse verwendet werden.
+  confirm-upload-simulation: Die Simulationsdaten wurden erfolgreich geladen und können im weiteren Verlauf dieser Analyse verwendet werden.
+  confirm-upload-custom: Die Simulationsdaten wurden erfolgreich geladen und können im weiteren Verlauf dieser Analyse verwendet werden.
+  decline-upload-custom: Die Simulationsdaten wurden nicht erfolgreich geladen. Bitte wählen Sie eine gültige Quelle und wiederholen Sie den Upload-Vorgang.
+  default-link1: Siehe Repository mit dem Beispieldatensatz
+  default-link2: Siehe Veröffentlichung mit der detaillierten Analyse
+  simulation-link1: Siehe Repository mit der Fertigungssimulation
+  simulation-link2: Siehe Publikation über Methoden zur Erkennung von Engpässen

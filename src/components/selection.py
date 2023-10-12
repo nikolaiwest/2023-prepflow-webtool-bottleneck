@@ -1,7 +1,18 @@
 import i18n
+from pandas import DataFrame
 
 from dash import Dash, html, dcc
-from dash_bootstrap_components import Row, Col, Card, CardImg, CardBody, Button, Alert
+from dash_bootstrap_components import (
+    Row,
+    Col,
+    Card,
+    CardImg,
+    CardBody,
+    Button,
+    Alert,
+    Table,
+    Container,
+)
 
 from ..auxiliaries.options import Options
 from ..auxiliaries.storage import ConfigName
@@ -118,6 +129,15 @@ def render_selection_details(
     config_app: dict,
     config_data: dict,
 ) -> html.Div:
+    def _render_initial() -> html.Div:
+        return html.Div(
+            id="alert-no-data-source-selected",
+            children=Alert(
+                "Please select a data source above to get started with the bottleneck analysis.",
+                color="secondary",
+            ),
+        )
+
     def _render_default() -> CardBody:
         """Display the description for the default data set."""
         # pick picture according to template
@@ -130,27 +150,34 @@ def render_selection_details(
             id="app-body-content-parameter-cardbody",
             children=[
                 Row(
-                    [
+                    children=[
                         Col(
-                            [
+                            children=[
                                 # Data description
-                                html.H4(i18n.t("selection.selection-default-title1")),
-                                html.Div(i18n.t("selection.selection-default-text1")),
-                                # Reccomendations for usage
-                                html.H4(
-                                    i18n.t("selection.selection-default-title2"),
-                                    style={"margin-top": "1rem"},
+                                html.H4(i18n.t("selection.default-title1")),
+                                html.Div(i18n.t("selection.default-text1")),
+                                dcc.Link(
+                                    f""">> {i18n.t("selection.default-link1")}""",
+                                    href="https://github.com/nikolaiwest/2023-bottleneck-prediction-icrcet",
+                                    target="_blank",
                                 ),
-                                html.Div(i18n.t("selection.selection-default-text2")),
                             ]
                         ),
-                        Col(
-                            [
-                                html.Img(src=link_to_img),
-                            ]
-                        ),
+                        # Image of value stream
+                        Col([html.Img(src=link_to_img)]),
                     ]
-                )
+                ),
+                # Reccomendations for usage
+                html.H4(
+                    i18n.t("selection.default-title2"),
+                    style={"margin-top": "1rem"},
+                ),
+                html.Div(i18n.t("selection.default-text2")),
+                dcc.Link(
+                    f""">> {i18n.t("selection.simulation-link2")}""",
+                    href=r"https://github.com/nikolaiwest/2023-bottleneck-prediction-icrcet/blob/main/WEST-E%7E1.PDF",
+                    target="_blank",
+                ),
             ],
         )
 
@@ -166,20 +193,19 @@ def render_selection_details(
             id="app-body-content-parameter-cardbody",
             children=[
                 Row(
-                    [
+                    children=[
                         Col(
-                            [
-                                html.H4(
-                                    i18n.t("selection.selection-simulation-title1")
-                                ),
+                            children=[
+                                # Details of the simulation
+                                html.H4(i18n.t("selection.simulation-title1")),
                                 html.Div(
-                                    i18n.t("selection.selection-simulation-text1"),
+                                    i18n.t("selection.simulation-text1"),
                                 ),
-                                html.H4(
-                                    i18n.t("selection.selection-simulation-title2"),
-                                    style={"margin-top": "1rem"},
+                                dcc.Link(
+                                    f""">> {i18n.t("selection.simulation-link1")}""",
+                                    href=r"https://github.com/nikolaiwest/2023-bottleneck-prediction-icrcet/tree/main/simulation",
+                                    target="_blank",
                                 ),
-                                # html.Div(i18n.t("selection.selection-default-text2")),
                             ]
                         ),
                         Col(
@@ -188,46 +214,136 @@ def render_selection_details(
                             ]
                         ),
                     ]
-                )
+                ),
+                # Customization of the parameters
+                html.H4(
+                    i18n.t("selection.simulation-title2"),
+                    style={"margin-top": "1rem"},
+                ),
+                html.Div(i18n.t("selection.simulation-text2")),
+                dcc.Link(
+                    f""">> {i18n.t("selection.simulation-link1")}""",
+                    href=r"https://www.researchgate.net/publication/371944127_Data-driven_approach_for_diagnostic_analysis_of_dynamic_bottlenecks_in_serial_manufacturing_systems",
+                    target="_blank",
+                ),
+                # Parameter inputs
+                Row(
+                    [
+                        # Number of stations
+                        Col(
+                            children=[
+                                html.H6(i18n.t("selection.simulation-param1")),
+                                dcc.Input(
+                                    id="input-station-number",
+                                    type="number",
+                                    placeholder=5,
+                                ),
+                            ],
+                            width=3,
+                        ),
+                        # Simulation time
+                        Col(
+                            children=[
+                                html.H6(i18n.t("selection.simulation-param2")),
+                                dcc.Input(
+                                    id="input-simulation-steps",
+                                    type="number",
+                                    placeholder=10000,
+                                ),
+                            ],
+                            width=3,
+                        ),
+                        # Process times
+                        Col(
+                            children=[
+                                html.H6(i18n.t("selection.simulation-param3")),
+                                dcc.Input(
+                                    id="input-process-times",
+                                    type="text",
+                                    placeholder="[2.00, 2.25, 2.00, 2.25, 2.00]",
+                                ),
+                            ],
+                            width=3,
+                        ),
+                        # Buffer capacities
+                        Col(
+                            children=[
+                                html.H6(i18n.t("selection.simulation-param4")),
+                                dcc.Input(
+                                    id="input-buffer-capacity",
+                                    type="text",
+                                    placeholder="[5.00, 5.00, 5.00, 5.00, 5.00]",
+                                ),
+                            ],
+                            width=3,
+                        ),
+                    ],
+                    style={"margin-top": "1rem"},
+                ),
             ],
         )
 
-    def _render_initial() -> html.Div:
-        return html.Div(
-            id="alert-no-data-source-selected",
-            children=Alert(
-                "Please select a data source above to get started with the bottleneck analysis.",
-                color="secondary",
-            ),
-        )
-
     def _render_upload() -> CardBody:
+        df_example1 = DataFrame(
+            {
+                "t": [0, 1, 2, 3, 4],
+                "B0": [0, 1, 2, 3, 4],
+                "B1": [0, 1, 2, 3, 4],
+                "...": ["...", "...", "...", "...", "..."],
+                "Bn-1": [0, 1, 2, 3, 4],
+                "Bn": [0, 1, 2, 3, 4],
+            }
+        )
+        df_example2 = DataFrame(
+            {
+                "S0": [0, 1, 2, 0, 4],
+                "S1": [0, 0, 1, 2, 3],
+                "...": ["...", "...", "...", "...", "..."],
+                "Sn-1": [0, 1, 2, 3, 4],
+                "Sn": [0, 1, 0, 1, 2],
+                "bottleneck": [1, 1, "n", "n", 4],
+            }
+        )
         return CardBody(
             id="app-body-content-parameter-cardbody",
             children=[
                 Row(
                     [
                         Col(
-                            [
+                            children=[
                                 # Upload buffer level
-                                html.H4("Upload buffer level"),
-                                html.Div("This is a description"),
+                                html.H4(i18n.t("selection.upload-title1")),
+                                html.Div(i18n.t("selection.upload-text1")),
+                                Table.from_dataframe(
+                                    df_example1,
+                                    striped=True,
+                                    bordered=True,
+                                    hover=True,
+                                    style={"margin-top": "1rem"},
+                                ),
                                 dcc.Upload(
                                     id="upload-buffer-level",
-                                    children=["Drag and Drop or Select a File"],
+                                    children=[i18n.t("selection.upload-button")],
                                     multiple=False,
                                     accept=".csv",
                                 ),
                             ],
                         ),
                         Col(
-                            [
+                            children=[
                                 # Upload active periods
-                                html.H4("Upload active periods"),
-                                html.Div("Your text here"),
+                                html.H4(i18n.t("selection.upload-title2")),
+                                html.Div(i18n.t("selection.upload-text2")),
+                                Table.from_dataframe(
+                                    df_example2,
+                                    striped=True,
+                                    bordered=True,
+                                    hover=True,
+                                    style={"margin-top": "1rem"},
+                                ),
                                 dcc.Upload(
                                     id="upload-active-periods",
-                                    children=["Drag and Drop or Select a File"],
+                                    children=[i18n.t("selection.upload-button")],
                                     multiple=False,
                                     accept=".csv",
                                 ),
@@ -273,7 +389,7 @@ def render_confirmation_button(
                 children=[
                     Button(
                         id="app-body-button-data-selection",
-                        children=["Save selection and proceed to the next steps."],
+                        children=[i18n.t("selection.confirm-and-proceed")],
                     ),
                 ],
             ),

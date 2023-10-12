@@ -1,7 +1,8 @@
+import i18n
 import pandas as pd
 import plotly.express as px
 
-from dash import Dash, html
+from dash import Dash, html, dcc
 from dash.dcc import Graph
 from dash_bootstrap_components import Card, CardBody, Accordion, AccordionItem, Alert
 
@@ -51,12 +52,13 @@ def get_visualizations(
                     AccordionItem(
                         id="diagnosis-frequency-accordion",
                         children=[
+                            html.Div(i18n.t("diagnosis.frequency-description")),
                             Graph(
                                 id="diagnosis-plot-grpah",
                                 figure=plot_diagnosis(app, config_app, config_data),
-                            )
+                            ),
                         ],
-                        title="Bottleneck Frequency",
+                        title=i18n.t("diagnosis.frequency-title"),
                     ),
                     start_collapsed=False,
                 ),
@@ -66,10 +68,20 @@ def get_visualizations(
                         id="diagnosis-severity-accordion",
                         children=[
                             html.Div(
-                                "The bottleneck severity is a measurement to assess the degree of effect that one bottleneck situation has on the entire system."
-                            )
+                                html.Div(i18n.t("diagnosis.severity-description"))
+                            ),
+                            html.Span(
+                                [
+                                    "Contact us: ",
+                                    dcc.Link(
+                                        f"""{i18n.t("general.mail")}""",
+                                        href=f"""mailto:{i18n.t("general.mail")}""",
+                                        target="_blank",
+                                    ),
+                                ]
+                            ),
                         ],
-                        title="Bottleneck Severity",
+                        title=i18n.t("diagnosis.severity-title"),
                     ),
                     start_collapsed=True,
                 ),
@@ -78,11 +90,19 @@ def get_visualizations(
                     AccordionItem(
                         id="diagnosis-costs-accordion",
                         children=[
-                            html.Div(
-                                "The bottleneck cost is a measurement to assess the monetary effect that a stations' bottleneck states have on the entire system."
-                            )
+                            html.Div(i18n.t("diagnosis.bottleneck-costs-description")),
+                            html.Span(
+                                [
+                                    "Contact us: ",
+                                    dcc.Link(
+                                        f"""{i18n.t("general.mail")}""",
+                                        href=f"""mailto:{i18n.t("general.mail")}""",
+                                        target="_blank",
+                                    ),
+                                ]
+                            ),
                         ],
-                        title="Bottleneck Costs",
+                        title=i18n.t("diagnosis.bottleneck-costs-title"),
                     ),
                     start_collapsed=True,
                 ),
@@ -103,8 +123,26 @@ def plot_diagnosis(
     df = pd.read_csv("data/active_periods_10000.csv", nrows=10000)
     value_counts = df["bottleneck"].value_counts()
     figure = px.bar(
+        template=get_template(config_app),
         x=value_counts.index,
         y=value_counts.values,
         labels={"x": "Bottleneck", "y": "Count"},
     )
     return figure
+
+
+def get_template(config_app: dict) -> str:
+    """
+    Get the template for visualizations based on the application theme.
+
+    Parameters:
+        config_app (dict): A dictionary containing configuration settings for the application.
+
+    Returns:
+        str: The template name for visualizations based on the application theme.
+    """
+    theme_colors = {
+        "light": "plotly_white",
+        "dark": "plotly_dark",
+    }
+    return theme_colors[config_app[ConfigName.theme]]
