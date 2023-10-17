@@ -24,7 +24,7 @@ The webtool is available online and allows to perform a bottleneck analysis in a
 
 The strucuture of the webtool **BottleNext** is based on a holistic approach to industrial bottleneck analysis:
 
-![Phases for bottleneck analysis](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/assets/webtool-preview-header.png)
+![Phases for bottleneck analysis](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/blob/main/assets/webtool-preview-header.png)
 
 This approach divides the bottleneck analysis into the four phases Detection, Diagnosis, Prognosis and Prescription. At this point, we refrain from a detailed description of the phases and instead refer to the publications issued in the course of the work. 
 
@@ -40,13 +40,13 @@ This approach divides the bottleneck analysis into the four phases Detection, Di
 
 The web tool uses four menu options, which are described in the following sections. 
 
-![Preview of the Webtool's header](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/assets/webtool-preview-header.png)
+![Preview of the Webtool's header](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/blob/main/assets/webtool-preview-header.png)
 
 ### Data Selection 
 
 To enable a flexible example, the web tool allows data for bottleneck analysis to be provided in three different ways. 
 
-![Preview of the Webtool's header](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/assets/webtool-preview-selection.png)
+![Preview of the Webtool's header](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/blob/main/assets/webtool-preview-selection.png)
 
 #### Use sample data
 The sample data originates from a value stream with five workstations S and six buffers B. The value stream is directed and the system boundaries are unconstrained. The process time pt was set to `2.00`, with stations S1 and S3 having additional process time of `2.25`. The maximum capacity of buffers bc was set to `5 parts` for all buffers. The data set comprises 10 million time steps and is fully available [online](https://github.com/nikolaiwest/2023-bottleneck-prediction-icrcet).
