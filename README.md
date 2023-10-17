@@ -40,7 +40,7 @@ This approach divides the bottleneck analysis into the four phases Detection, Di
 
 The web tool uses four menu options, which are described in the following sections. 
 
-![Preview of the Webtool's header](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/blob/main/assets/webtool-preview-header.png)
+![Preview of the Webtool's header](https://github.com/nikolaiwest/2023-prepflow-webtool-bottleneck/blob/main/assets/webtool-preview-model.png)
 
 ### Data Selection 
 
