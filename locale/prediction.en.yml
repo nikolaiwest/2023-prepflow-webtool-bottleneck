@@ -1,0 +1,12 @@
+en: 
+  parameter-title: Select prediction parameter
+  parameter-description: Two parameters must be set before performing the bottleneck prediction. The look-back window specifies the length of the time series used for training. The forecast horizon specifies the length of the forecast. 
+  modelling-param1: Define look-back window 
+  modelling-param2: Define prediction horizon
+  results-title: Results of the prediction
+  results-description: The graph below shows the results of the forecast compared to five benchmarks. The benchmark "random" predicts bottlenecks randomly. "naiveM2" and "navieM4" respectively predict stations S1 and S3 as bottlenecks. The benchmark "last" predicts the last station in the training dataset as bottleneck. 
+  examples-title: Visualization of exemplary predictions
+  examples-description: In the following examples of the prediction from the test data set can be displayed. The two left plots show the input variables of the prediction. The right plot ("Truth and predictions") shows the comparison of the prediction as LSTM prediction and the actual course of the bottleneck. The selection of the test data was set in advance to observations with a bottleneck change in order to exclude trivial predictions.
+  button-run-prediction: Run the bottleneck prediction 
+  button-run-alert: Please note that the bottleneck prediction currently shows the results of the sample data set. A prepared analysis is used for this purpose. Due to the size of the data and the runtime, the model training is currently not performed in the browser. All details about the model training can be found here
+  button-run-alert-link: Link for an in-depth modelling

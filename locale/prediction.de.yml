@@ -1,0 +1,12 @@
+de: 
+  parameter-title: Parameter der Prognose festlegen
+  parameter-description: Vor der Durchführung der Enpgassprognose müssen zwei Parameter festgelegt werden. Das Rückschaufenster gibt die Länge der zum Training verwendeten Zeitreihen an. Der Prognosehorizont gibt die länge der Vorhersage an. 
+  modelling-param1: Rückschaufenster festlegen 
+  modelling-param2: Prognosehorizont festlegen 
+  results-title: Ergebnisse der Prognose
+  results-description: Die nachfolgende Grafik zeigt das Ergebnis der Prognose im Vergleich mit fünf Benchmarkings. Das Benchmark "random" sagt Engpässe zufällig voraus. "naiveM2" bzw. "navieM4" sagen jeweils die Stationen S1 bzw. S3 als Engpässe voraus. Das Benchmark "last" sagt die jeweils letzte Station im Trainingsdatensatz als Engpass voraus. 
+  examples-title: Visualisierung beispielhafter Prognosen 
+  examples-description: In nachfolgenden können Beispiele der Vorhersage aus dem Testdatensatz angezeigt werden. Die beiden linken Grafiken zeigen dabei die Eingangsgrößen der Prognose. Im rechten Plot ("Truth and predictions") ist der Vergleich der Vorhersage als LSTM-Prognose und der tatsächlichen Verläufe des Engpasses dargestellt. Die Auswahl der Testdaten wurde vorab auf Beobachtungen mit einem Engpasswechsel festgelegt, um triviale Vorhersagen auszuschließen. 
+  button-run-prediction: Engpassprognose ausführen 
+  button-run-alert: Bitte beachten Sie das die Engpassprognose aktuell die Ergebnisse des Beispieldatensatzes zeigt. Dafür wird eine vorbereitete Analyse verwendet. Aufgrund des Datenumfangs und der Laufzeit erfoglt das Modelltraining derzeit nicht im Browser. Alle Details zum Modelltraining finden sich hier
+  button-run-alert-link: Link zur detaillierten Modellierung

@@ -3,7 +3,7 @@ import i18n
 import base64
 import pandas as pd
 
-from dash import callback_context, html
+from dash import callback_context, html, dcc
 from dash.exceptions import NonExistentEventException
 from dash.dependencies import Input, Output, State
 
@@ -17,6 +17,8 @@ from ..components.detection import (
     plot_buffer_level,
     plot_active_periods,
 )
+from ..components.prediction import get_example, load_data
+
 from simulation.simulation import run_simulation
 from simulation.bottlenecks import Bottlenecks
 from ..page.sidebar import LinkName
@@ -390,3 +392,48 @@ def register(app):
             figure_active_periods = plot_active_periods(df_active_periods, config_app)
 
         return figure_bottlenecks, figure_buffer_level, figure_active_periods
+
+    @app.callback(
+        Output("prediction-results-plot", "figure"),
+        Input("input-parameter-example-sample", "value"),
+        State(ConfigName.app, "data"),
+    )
+    def update_prediction_example(sample_number, config_app):
+        if sample_number is None:
+            sample_number = 13  # default example
+        x_test, y_test, predictions = load_data(path="data/", name="results")
+        return get_example(config_app, x_test, y_test, predictions, sample_number)
+
+    @app.callback(
+        Output("run-bottleneck-prediction-body", "children"),
+        Input("run-bottleneck-prediction", "n_clicks"),
+        prevent_initial_call=True,
+    )
+    def run_bottleneck_prediction(n_clicks):
+        if n_clicks is not None:
+            return (
+                Alert(
+                    id="alert-prediction-button-pressed",
+                    children=html.Div(
+                        [
+                            i18n.t("prediction.button-run-alert"),
+                            ": ",
+                            html.Span(
+                                dcc.Link(
+                                    i18n.t("prediction.button-run-alert-link"),
+                                    href="https://github.com/nikolaiwest/2023-bottleneck-prediction-icrcet",
+                                    target="_blank",
+                                ),
+                            ),
+                        ]
+                    ),
+                    color="warning",
+                    style={"margin-bottom": 0, "margin-top": "1rem"},
+                ),
+            )
+        else:
+            print("click")
+            Button(
+                children=[i18n.t("prediction.button-run-prediction")],
+                style={"width": "100%", "margin-top": "1rem"},
+            )
